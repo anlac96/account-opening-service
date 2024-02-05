@@ -5,7 +5,7 @@ import com.github.anlac96.account.opening.service.model.OpeningDossier;
 import com.github.anlac96.account.opening.service.model.customer.Customer;
 import com.github.anlac96.account.opening.service.service.exception.AbstractBusinessException;
 
-public interface OpeningDossierService {
+public interface AccountOpeningService {
     OpeningDossier createNewDossier() throws AbstractBusinessException;
 
     OpeningDossier getDossierById(String dossierId) throws AbstractBusinessException;
