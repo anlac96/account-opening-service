@@ -1,6 +1,9 @@
 package com.github.anlac96.account.opening.service.service.exception;
 
 public abstract class AbstractBusinessException extends RuntimeException {
+    public AbstractBusinessException() {
+        super();
+    }
 
     public AbstractBusinessException(String message) {
         super(message);
