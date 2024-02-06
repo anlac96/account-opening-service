@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OpeningDossier {
+public class BankAccountDossier {
     private String dossierId;
     private Customer customer;
     private IdentityDocument identityDocument;
