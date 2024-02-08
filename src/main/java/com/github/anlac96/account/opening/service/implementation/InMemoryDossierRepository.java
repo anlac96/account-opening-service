@@ -14,7 +14,8 @@ public class InMemoryDossierRepository implements DossierRepository {
 
     @Override
     public BankAccountDossier create(BankAccountDossier dossier) {
-        return inMemoryDossierMap.put(dossier.getDossierId(), dossier);
+        inMemoryDossierMap.put(dossier.getDossierId(), dossier);
+        return dossier;
     }
 
     @Override
