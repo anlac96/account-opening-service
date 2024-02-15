@@ -55,6 +55,7 @@ public class BankAccountOpeningServiceImpl implements BankAccountOpeningService 
         }
 
         updateIdentityDocumentIntoDossier(identityDocument, dossier);
+        dossierRepository.update(dossier);
         return dossier;
     }
 
@@ -81,6 +82,7 @@ public class BankAccountOpeningServiceImpl implements BankAccountOpeningService 
         }
 
         mapCustomerIntoDossier(customer, dossier);
+        dossierRepository.update(dossier);
         return dossier;
     }
 
