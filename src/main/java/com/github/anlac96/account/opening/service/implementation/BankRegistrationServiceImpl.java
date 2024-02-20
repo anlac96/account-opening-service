@@ -1,13 +1,13 @@
 package com.github.anlac96.account.opening.service.implementation;
 
-import com.github.anlac96.account.opening.service.model.BankAccountDossier;
+import com.github.anlac96.account.opening.service.model.BankRegistration;
 import com.github.anlac96.account.opening.service.model.IdentityDocument;
 import com.github.anlac96.account.opening.service.model.customer.Address;
 import com.github.anlac96.account.opening.service.model.customer.Customer;
-import com.github.anlac96.account.opening.service.service.BankAccountOpeningService;
-import com.github.anlac96.account.opening.service.service.DossierRepository;
+import com.github.anlac96.account.opening.service.service.BankRegistrationService;
+import com.github.anlac96.account.opening.service.service.BankRegistrationRepository;
 import com.github.anlac96.account.opening.service.service.exception.AbstractBusinessException;
-import com.github.anlac96.account.opening.service.service.exception.DossierNotFoundException;
+import com.github.anlac96.account.opening.service.service.exception.BankRegistrationNotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -17,18 +17,18 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @ApplicationScoped
-public class BankAccountOpeningServiceImpl implements BankAccountOpeningService {
+public class BankRegistrationServiceImpl implements BankRegistrationService {
 
-    private DossierRepository dossierRepository;
+    private BankRegistrationRepository dossierRepository;
 
     @Inject
-    public BankAccountOpeningServiceImpl(DossierRepository dossierRepository) {
+    public BankRegistrationServiceImpl(BankRegistrationRepository dossierRepository) {
         this.dossierRepository = dossierRepository;
     }
 
     @Override
-    public BankAccountDossier createNewDossier() throws AbstractBusinessException {
-        BankAccountDossier dossier = new BankAccountDossier();
+    public BankRegistration createNewDossier() throws AbstractBusinessException {
+        BankRegistration dossier = new BankRegistration();
         dossier.setDossierId(UUID.randomUUID().toString());
         Customer customer = new Customer();
         customer.setAddress(new Address());
@@ -39,19 +39,19 @@ public class BankAccountOpeningServiceImpl implements BankAccountOpeningService 
     }
 
     @Override
-    public BankAccountDossier getDossierById(String dossierId) throws AbstractBusinessException {
-        BankAccountDossier dossier = dossierRepository.findById(dossierId);
+    public BankRegistration getDossierById(String dossierId) throws AbstractBusinessException {
+        BankRegistration dossier = dossierRepository.findById(dossierId);
         if (dossier == null) {
-            throw new DossierNotFoundException();
+            throw new BankRegistrationNotFoundException();
         }
         return dossier;
     }
 
     @Override
-    public BankAccountDossier updateIdentityDocument(String dossierId, IdentityDocument identityDocument) throws AbstractBusinessException {
-        BankAccountDossier dossier = dossierRepository.findById(dossierId);
+    public BankRegistration updateIdentityDocument(String dossierId, IdentityDocument identityDocument) throws AbstractBusinessException {
+        BankRegistration dossier = dossierRepository.findById(dossierId);
         if (dossier == null) {
-            throw new DossierNotFoundException();
+            throw new BankRegistrationNotFoundException();
         }
 
         updateIdentityDocumentIntoDossier(identityDocument, dossier);
@@ -59,7 +59,7 @@ public class BankAccountOpeningServiceImpl implements BankAccountOpeningService 
         return dossier;
     }
 
-    private static void updateIdentityDocumentIntoDossier(IdentityDocument identityDocument, BankAccountDossier dossier) {
+    private static void updateIdentityDocumentIntoDossier(IdentityDocument identityDocument, BankRegistration dossier) {
         IdentityDocument dossierIdentityDocument = dossier.getIdentityDocument();
         mapDataIfNotNull(identityDocument::getDocumentType, dossierIdentityDocument::setDocumentType);
         mapDataIfNotNull(identityDocument::getNumber, dossierIdentityDocument::setNumber);
@@ -75,10 +75,10 @@ public class BankAccountOpeningServiceImpl implements BankAccountOpeningService 
     }
 
     @Override
-    public BankAccountDossier updateCustomerInformation(String dossierId, Customer customer) throws AbstractBusinessException {
-        BankAccountDossier dossier = dossierRepository.findById(dossierId);
+    public BankRegistration updateCustomerInformation(String dossierId, Customer customer) throws AbstractBusinessException {
+        BankRegistration dossier = dossierRepository.findById(dossierId);
         if (dossier == null) {
-            throw new DossierNotFoundException();
+            throw new BankRegistrationNotFoundException();
         }
 
         mapCustomerIntoDossier(customer, dossier);
@@ -86,7 +86,7 @@ public class BankAccountOpeningServiceImpl implements BankAccountOpeningService 
         return dossier;
     }
 
-    private static void mapCustomerIntoDossier(Customer customer, BankAccountDossier dossier) {
+    private static void mapCustomerIntoDossier(Customer customer, BankRegistration dossier) {
         Customer dossierCustomer = dossier.getCustomer();
         mapDataIfNotNull(customer::getFirstName, dossierCustomer::setFirstName);
         mapDataIfNotNull(customer::getLastName, dossierCustomer::setLastName);
