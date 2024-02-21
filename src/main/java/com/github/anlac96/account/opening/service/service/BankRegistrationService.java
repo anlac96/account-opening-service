@@ -6,11 +6,11 @@ import com.github.anlac96.account.opening.service.model.customer.Customer;
 import com.github.anlac96.account.opening.service.service.exception.AbstractBusinessException;
 
 public interface BankRegistrationService {
-    BankRegistration createNewDossier() throws AbstractBusinessException;
+    BankRegistration createNewRegistration() throws AbstractBusinessException;
 
-    BankRegistration getDossierById(String dossierId) throws AbstractBusinessException;
+    BankRegistration getRegistrationById(String registrationId) throws AbstractBusinessException;
 
-    BankRegistration updateIdentityDocument(String dossierId, IdentityDocument identityDocument) throws AbstractBusinessException;
+    BankRegistration updateIdentityDocument(String registrationId, IdentityDocument identityDocument) throws AbstractBusinessException;
 
-    BankRegistration updateCustomerInformation(String dossierId, Customer customer) throws AbstractBusinessException;
+    BankRegistration updateCustomerInformation(String registrationId, Customer customer) throws AbstractBusinessException;
 }

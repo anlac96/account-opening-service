@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BankRegistration {
-    private String dossierId;
+    private String registrationId;
     private Customer customer;
     private IdentityDocument identityDocument;
     private List<ProductAccount> productAccounts;

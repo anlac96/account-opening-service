@@ -19,52 +19,52 @@ import java.util.function.Supplier;
 @ApplicationScoped
 public class BankRegistrationServiceImpl implements BankRegistrationService {
 
-    private BankRegistrationRepository dossierRepository;
+    private BankRegistrationRepository registrationRepository;
 
     @Inject
-    public BankRegistrationServiceImpl(BankRegistrationRepository dossierRepository) {
-        this.dossierRepository = dossierRepository;
+    public BankRegistrationServiceImpl(BankRegistrationRepository registrationRepository) {
+        this.registrationRepository = registrationRepository;
     }
 
     @Override
-    public BankRegistration createNewDossier() throws AbstractBusinessException {
-        BankRegistration dossier = new BankRegistration();
-        dossier.setDossierId(UUID.randomUUID().toString());
+    public BankRegistration createNewRegistration() throws AbstractBusinessException {
+        BankRegistration registration = new BankRegistration();
+        registration.setRegistrationId(UUID.randomUUID().toString());
         Customer customer = new Customer();
         customer.setAddress(new Address());
-        dossier.setCustomer(customer);
-        dossier.setIdentityDocument(new IdentityDocument());
-        dossier.setProductAccounts(new ArrayList<>());
-        return dossierRepository.create(dossier);
+        registration.setCustomer(customer);
+        registration.setIdentityDocument(new IdentityDocument());
+        registration.setProductAccounts(new ArrayList<>());
+        return registrationRepository.create(registration);
     }
 
     @Override
-    public BankRegistration getDossierById(String dossierId) throws AbstractBusinessException {
-        BankRegistration dossier = dossierRepository.findById(dossierId);
-        if (dossier == null) {
+    public BankRegistration getRegistrationById(String registrationId) throws AbstractBusinessException {
+        BankRegistration registration = registrationRepository.findById(registrationId);
+        if (registration == null) {
             throw new BankRegistrationNotFoundException();
         }
-        return dossier;
+        return registration;
     }
 
     @Override
-    public BankRegistration updateIdentityDocument(String dossierId, IdentityDocument identityDocument) throws AbstractBusinessException {
-        BankRegistration dossier = dossierRepository.findById(dossierId);
-        if (dossier == null) {
+    public BankRegistration updateIdentityDocument(String registrationId, IdentityDocument identityDocument) throws AbstractBusinessException {
+        BankRegistration registration = registrationRepository.findById(registrationId);
+        if (registration == null) {
             throw new BankRegistrationNotFoundException();
         }
 
-        updateIdentityDocumentIntoDossier(identityDocument, dossier);
-        dossierRepository.update(dossier);
-        return dossier;
+        updateIdentityDocumentIntoRegistration(identityDocument, registration);
+        registrationRepository.update(registration);
+        return registration;
     }
 
-    private static void updateIdentityDocumentIntoDossier(IdentityDocument identityDocument, BankRegistration dossier) {
-        IdentityDocument dossierIdentityDocument = dossier.getIdentityDocument();
-        mapDataIfNotNull(identityDocument::getDocumentType, dossierIdentityDocument::setDocumentType);
-        mapDataIfNotNull(identityDocument::getNumber, dossierIdentityDocument::setNumber);
-        mapDataIfNotNull(identityDocument::getValidFrom, dossierIdentityDocument::setValidFrom);
-        mapDataIfNotNull(identityDocument::getValidTill, dossierIdentityDocument::setValidTill);
+    private static void updateIdentityDocumentIntoRegistration(IdentityDocument identityDocument, BankRegistration registration) {
+        IdentityDocument registrationIdentityDocument = registration.getIdentityDocument();
+        mapDataIfNotNull(identityDocument::getDocumentType, registrationIdentityDocument::setDocumentType);
+        mapDataIfNotNull(identityDocument::getNumber, registrationIdentityDocument::setNumber);
+        mapDataIfNotNull(identityDocument::getValidFrom, registrationIdentityDocument::setValidFrom);
+        mapDataIfNotNull(identityDocument::getValidTill, registrationIdentityDocument::setValidTill);
     }
 
     public static <T> void mapDataIfNotNull(Supplier<T> supplier, Consumer<T> setterMethod) {
@@ -75,30 +75,30 @@ public class BankRegistrationServiceImpl implements BankRegistrationService {
     }
 
     @Override
-    public BankRegistration updateCustomerInformation(String dossierId, Customer customer) throws AbstractBusinessException {
-        BankRegistration dossier = dossierRepository.findById(dossierId);
-        if (dossier == null) {
+    public BankRegistration updateCustomerInformation(String registrationId, Customer customer) throws AbstractBusinessException {
+        BankRegistration registration = registrationRepository.findById(registrationId);
+        if (registration == null) {
             throw new BankRegistrationNotFoundException();
         }
 
-        mapCustomerIntoDossier(customer, dossier);
-        dossierRepository.update(dossier);
-        return dossier;
+        mapCustomerIntoRegistration(customer, registration);
+        registrationRepository.update(registration);
+        return registration;
     }
 
-    private static void mapCustomerIntoDossier(Customer customer, BankRegistration dossier) {
-        Customer dossierCustomer = dossier.getCustomer();
-        mapDataIfNotNull(customer::getFirstName, dossierCustomer::setFirstName);
-        mapDataIfNotNull(customer::getLastName, dossierCustomer::setLastName);
-        mapDataIfNotNull(customer::getBirthDate, dossierCustomer::setBirthDate);
-        mapDataIfNotNull(customer::getNationality, dossierCustomer::setNationality);
+    private static void mapCustomerIntoRegistration(Customer customer, BankRegistration registration) {
+        Customer registrationCustomer = registration.getCustomer();
+        mapDataIfNotNull(customer::getFirstName, registrationCustomer::setFirstName);
+        mapDataIfNotNull(customer::getLastName, registrationCustomer::setLastName);
+        mapDataIfNotNull(customer::getBirthDate, registrationCustomer::setBirthDate);
+        mapDataIfNotNull(customer::getNationality, registrationCustomer::setNationality);
 
-        Address dossierCustomerAddress = dossierCustomer.getAddress();
+        Address registrationCustomerAddress = registrationCustomer.getAddress();
         Address inputAddress = customer.getAddress();
-        mapDataIfNotNull(inputAddress::getCountry, dossierCustomerAddress::setCountry);
-        mapDataIfNotNull(inputAddress::getZipCode, dossierCustomerAddress::setZipCode);
-        mapDataIfNotNull(inputAddress::getCity, dossierCustomerAddress::setCity);
-        mapDataIfNotNull(inputAddress::getStreet, dossierCustomerAddress::setStreet);
-        mapDataIfNotNull(inputAddress::getHouseNumber, dossierCustomerAddress::setHouseNumber);
+        mapDataIfNotNull(inputAddress::getCountry, registrationCustomerAddress::setCountry);
+        mapDataIfNotNull(inputAddress::getZipCode, registrationCustomerAddress::setZipCode);
+        mapDataIfNotNull(inputAddress::getCity, registrationCustomerAddress::setCity);
+        mapDataIfNotNull(inputAddress::getStreet, registrationCustomerAddress::setStreet);
+        mapDataIfNotNull(inputAddress::getHouseNumber, registrationCustomerAddress::setHouseNumber);
     }
 }

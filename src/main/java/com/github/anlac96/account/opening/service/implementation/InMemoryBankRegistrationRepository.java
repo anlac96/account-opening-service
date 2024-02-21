@@ -10,26 +10,26 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApplicationScoped
 public class InMemoryBankRegistrationRepository implements BankRegistrationRepository {
 
-    private static Map<String, BankRegistration> inMemoryDossierMap = new ConcurrentHashMap<>();
+    private static Map<String, BankRegistration> inMemoryRegistrationMap = new ConcurrentHashMap<>();
 
     @Override
-    public BankRegistration create(BankRegistration dossier) {
-        inMemoryDossierMap.put(dossier.getDossierId(), dossier);
-        return dossier;
+    public BankRegistration create(BankRegistration registration) {
+        inMemoryRegistrationMap.put(registration.getRegistrationId(), registration);
+        return registration;
     }
 
     @Override
-    public BankRegistration findById(String dossierId) {
-        return inMemoryDossierMap.get(dossierId);
+    public BankRegistration findById(String registrationId) {
+        return inMemoryRegistrationMap.get(registrationId);
     }
 
     @Override
-    public BankRegistration update(BankRegistration dossier) {
-        return inMemoryDossierMap.put(dossier.getDossierId(), dossier);
+    public BankRegistration update(BankRegistration registration) {
+        return inMemoryRegistrationMap.put(registration.getRegistrationId(), registration);
     }
 
     @Override
-    public BankRegistration delete(BankRegistration dossier) {
-        return inMemoryDossierMap.remove(dossier.getDossierId());
+    public BankRegistration delete(BankRegistration registration) {
+        return inMemoryRegistrationMap.remove(registration.getRegistrationId());
     }
 }
