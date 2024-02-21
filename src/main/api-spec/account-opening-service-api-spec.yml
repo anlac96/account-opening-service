@@ -1,0 +1,60 @@
+openapi: '3.0.2'
+info:
+  title: Bank Account Opening Service API spec
+  version: 0.9.0
+paths:
+  /registrations:
+    post:
+      summary: Create a new bank registration
+      description: Create a new empty bank registration
+      operationId: createRegistration
+      responses:
+        201:
+          description: Created. Create new registration successfully.
+          content:
+            application/json:
+              schema:
+                title: CreateRegistrationResponse
+                type: object
+                properties:
+                  registrationId:
+                    type: string
+                    description: The registration unique id
+                    example: 92824161-3730-4625-a93d-8a16bc1c9f18
+        400:
+          description: Bad request.
+        401:
+          description: Unauthorized. The caller is unauthorized.
+        403:
+          description: Forbidden. The caller has no permision.
+  /registrations/{registrationId}:
+    get:
+      summary: Get registration by id
+      description: Get the registration by id
+      operationId: getRegistration
+      parameters:
+        - in: path
+          name: registrationId
+          required: true
+          schema:
+            type: string
+            example: 92824161-3730-4625-a93d-8a16bc1c9f18
+      responses:
+        200:
+          description: OK. Get registration by id successfully.
+          content:
+            application/json:
+              schema:
+                title: GetRegistrationResponse
+                type: object
+                properties:
+                  registrationId:
+                    type: string
+                    description: The registration unique id
+                    example: 92824161-3730-4625-a93d-8a16bc1c9f18
+        400:
+          description: Bad request.
+        401:
+          description: Unauthorized. The caller is unauthorized.
+        403:
+          description: Forbidden. The caller has no permision.
