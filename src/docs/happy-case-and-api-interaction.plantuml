@@ -1,0 +1,144 @@
+@startuml Happy case and api interaction
+title Happy case and api interaction
+
+participant UI
+participant API
+database DB
+
+' Create new registration
+activate UI
+UI -> API: **POST** /registrations
+
+activate API
+
+note right API #LightBlue
+create new empty registrations
+endnote
+
+API -> DB: create
+
+activate DB
+API <- DB
+deactivate DB
+
+UI <- API: Response 201 Created
+hnote left API
+{
+    "registrationId": "c35cd18f-8a7d-4e10-a03b-7d5156c2abd3"
+}
+endnote
+deactivate API
+
+...
+' Put identity document data
+UI -> API: PUT /registrations/{registrationId}/identities
+hnote right UI
+{
+    "content": "SGVsbG8sIFdvcmxkIQ==",
+}
+endnote
+
+activate API
+note right API #LightBlue: store identity document base64 content
+
+API -> DB: save
+activate DB
+API <- DB
+deactivate DB
+
+note right API #LightBlue: might read the user information from ID document
+
+UI <- API: Response 200 OK
+deactivate API
+
+...
+' Put customer information
+UI -> API: PUT /regisrations/{registrationId}/customers
+hnote right UI
+{
+    "firstname": "Example",
+    "lastname": "Customer",
+}
+endnote
+
+activate API
+API -> DB: save
+activate DB
+API <- DB
+deactivate DB
+
+UI <- API: Response 200 OK
+deactivate API
+
+...
+' Verify customer
+UI -> API: POST /registration/{registrationId}/verifications
+
+activate API
+note right API #LightBlue
+perform verifition base on the bank business
+e.g: supported country, age
+endnote
+
+API -> DB: save
+activate DB
+API <- DB
+deactivate DB
+
+UI <- API: Response 200 OK
+deactivate API
+
+...
+' Get available products for customer
+UI -> API: GET /registration/{registrationId}/available-products
+
+activate API
+note right API #LightBlue: Filter available products based on customer information
+
+UI <- API: Response 200 OK
+hnote left API
+{
+    "accounts": [],
+    "productCards": []
+}
+endnote
+deactivate API
+
+...
+' Select product
+UI -> API: POST /registration/{registrationId}/accounts
+hnote right UI
+{
+    "account": {},
+    "productCards": []
+}
+endnote
+
+activate API
+API -> DB: save
+activate DB
+API <- DB
+deactivate DB
+
+UI <- API: Response 201 Created
+hnote left API
+{
+    "accountId": "46fdab4f-7a37-4221-a06c-02ff80eebb54"
+}
+endnote
+deactivate API
+
+...
+note over API #LightBlue
+Remaining APIs:
+- GET /registrations/{registrationId}
+- DELETE /registrations/{registrationId}/accounts/{accountId}
+- POST /registrations/{registrationId}/accounts/{accountId}/cards
+- DELETE /registrations/{registrationId}/accounts/{accountId}/cards/{cardId}
+- Maybe PUT for update accounts, cards
+- GET /registrations/{registrationId}/documents
+- POST /registrations/{registrationId}/documents
+- GET /registrations/{registrationId}/documents/{documentId}
+endnote
+
+@enduml
