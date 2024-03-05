@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.Path;
 
 @ApplicationScoped
-@Path("/registrations1")
+@Path("/registrations")
 public class RegistrationApiImpl implements RegistrationsApi {
     @Override
     public CreateRegistrationResponse createRegistration() {
