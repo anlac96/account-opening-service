@@ -24,6 +24,6 @@ openApiGenerate {
             openapiLibrary: "quarkus",
             dateLibrary: "java8",
     ]
-    groupId = "com.example"
-    id = "api"
+    groupId = "$project.projectGroupId"
+    id = "$rootProject.name"
 }
