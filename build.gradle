@@ -13,6 +13,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy'
     implementation 'io.quarkus:quarkus-arc'
 
+    implementation files("$rootDir/api-spec/account-opening-service-api-0.9.0.jar")
+
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
