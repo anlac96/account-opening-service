@@ -1,9 +1,8 @@
 package com.github.anlac96.account.opening.service.api;
 
-import com.github.anlac96.account.opening.service.api.RegistrationsApi;
+import com.github.anlac96.account.opening.service.api.converter.ApiConverterFactory;
 import com.github.anlac96.account.opening.service.dto.CreateRegistrationResponse;
 import com.github.anlac96.account.opening.service.dto.GetRegistrationResponse;
-import com.github.anlac96.account.opening.service.implementation.BankRegistrationServiceImpl;
 import com.github.anlac96.account.opening.service.model.BankRegistration;
 import com.github.anlac96.account.opening.service.service.BankRegistrationService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -30,6 +29,7 @@ public class RegistrationApiImpl implements RegistrationsApi {
 
     @Override
     public GetRegistrationResponse getRegistration(String registrationId) {
-        return new GetRegistrationResponse().registrationId("hello-quarkus");
+        BankRegistration registration = bankRegistrationService.getRegistrationById(registrationId);
+        return ApiConverterFactory.getInstance().getRegistrationConverter().toRegistrationResponse(registration);
     }
 }
