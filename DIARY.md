@@ -6,7 +6,7 @@ This diary will track the process so that I can improve.
 # 2024-02-04
 - Have an idea to build a simple project with all components: OpenAPI spec, Quarkus Rest service, UI.
 Take the chance to apply new things into this project.
-In the end, this should be a simple application that allows users to register a new bank account.
+In the end, this should be a simple application that allows users to register a new account.
 - Init the quarkus project
 - Draw the happy case diagram
 
